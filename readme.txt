@@ -8,3 +8,5 @@ results in the img w/designated area borders drawn in red
 also results in a mask w/ black background, and each area filled in w different color
 
 if given a point x,y - reference the mask, if the mask is a certain color - x,y is within an area, use color to determine which area
+
+dictionary of areas w/ their vertices and color representatives saved in json file
