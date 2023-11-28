@@ -1,6 +1,6 @@
 readme
 
-select the corners of the area you wish to create (eating area, line waiting area, coffee making area etc) - left click for all but last point, middle click for last point in area
+select the corners of the area you wish to create (eating area, line waiting area, coffee making area etc) - right click for all but last point, middle click for last point in area
 
 do ^ for each area
 
