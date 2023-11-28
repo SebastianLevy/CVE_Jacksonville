@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import json
 text_color = (255, 0 , 0) #blue
 font = cv2.FONT_HERSHEY_SIMPLEX 
 fontScale = 1   
@@ -59,5 +60,7 @@ while True:
         cv2.imwrite('mask.png', mask)
         print(f'number of areas = {len(shapes)}')
         print(shapes) #print coordinates of areas
+        with open('areas.json', 'w') as f:
+            json.dump(shapes, f)
         break    
 cv2.destroyAllWindows()
