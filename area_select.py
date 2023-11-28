@@ -14,12 +14,12 @@ cv2.putText(concat, 'Welcome', (cols+25, 50), font, fontScale, text_color, 2,cv2
 cv2.putText(concat, 'to', (cols+25, 100), font, fontScale, text_color, 2,cv2.LINE_AA)
 cv2.putText(concat, 'SmartCrowd', (cols+25, 150), font, fontScale, text_color, 2,cv2.LINE_AA)
 cv2.rectangle(concat, (cols+25, 200), (cols+250, 250), text_color, 5)
-cv2.putText(concat, 'Click here to start', (cols+50, 225), font, .6, text_color, 2,cv2.LINE_AA)
+cv2.putText(concat, 'Click here for gym', (cols+50, 225), font, .6, text_color, 2,cv2.LINE_AA)
 
 mask = np.zeros_like(img) #black 
 colors = [(0, 0, 255), (28, 172, 255), (15, 196, 241), (0, 255, 0), (255, 0, 0)]
 color_i = 0
-shapes = [] #list to store all drawn areas
+shapes = dict() #[] #list to store all drawn areas
 curr_shape_index = [] #list to store the indices of the polygon currently drawing
 def draw_polygon(event, x, y, flags, params):
     global shapes, curr_shape_index, colors, color_i
@@ -34,7 +34,7 @@ def draw_polygon(event, x, y, flags, params):
         if len(curr_shape_index) > 1:
             cv2.line(img, curr_shape_index[-2], curr_shape_index[-1], color, thickness)
             cv2.line(concat, curr_shape_index[-2], curr_shape_index[-1], color, thickness)
-    elif x <= cols and event == cv2.EVENT_MBUTTONDOWN: #middle click to denote last vertex of polygon
+    elif x <= cols and event == cv2.EVENT_RBUTTONDOWN: #middle click to denote last vertex of polygon
         curr_shape_index.append((x, y))
         cv2.line(img, curr_shape_index[-2], curr_shape_index[-1], color, thickness)
         cv2.line(img, curr_shape_index[0], curr_shape_index[-1], color, thickness)
@@ -44,7 +44,9 @@ def draw_polygon(event, x, y, flags, params):
 
         cv2.fillPoly(mask, [pts], colors[color_i]) #fill in where areas are
         color_i = (1 + color_i) % len(colors)
-        shapes.append(curr_shape_index.copy()) #save polygon
+        n = input('enter area name: ')
+        shapes[n] = (curr_shape_index.copy(), colors[color_i])
+        #shapes.append(curr_shape_index.copy()) #save polygon
         curr_shape_index = [] #reset current indices list
     
 cv2.namedWindow("Image")
