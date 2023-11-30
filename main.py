@@ -85,12 +85,20 @@ while True:
         c = class_list[class_id]
         if xc<1020 and yc<500:
             colour = tuple(int(val) for val in mask[yc, xc])
-        print(yc,xc)
 
         if 'person' in c:
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.putText(frame, str(c), (x1, y1), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 1)
-            cv2.circle(frame, (xc, yc), 5, colour, -1)  # Bottom-Midpoint in pink
+            cv2.circle(frame, (xc, yc), 5, colour, -1)
+
+            area_col = mask[yc, xc]
+            area_col_tuple = tuple(area_col)
+            print('Person at:',xc,yc)
+
+            # Find the area name by color and update the count
+            area_name = areas.get(area_col_tuple, "no color")
+            if area_name != "no color":
+                people_count[area_name] += 1
 
     # Print the number of people in each area
     for area, count in people_count.items():
@@ -108,3 +116,5 @@ while True:
 
 
 cv2.waitKey(0)
+
+
