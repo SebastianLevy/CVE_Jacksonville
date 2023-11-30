@@ -12,20 +12,19 @@ with open(json_file_path, 'r') as file:
     areas = json.load(file)
     areas = {tuple(value): key for key, value in areas.items()}
 
-model=YOLO('yolov8s.pt')
+model = YOLO('yolov8s.pt')
 
 cv2.namedWindow('RGB')
 
-my_file = open("coco.txt", "r")
-data = my_file.read()
+with open("coco.txt", "r") as my_file:
+    data = my_file.read()
 class_list = data.split("\n") 
 
-trackers = []
-count=0
 
+
+#YOLO VIDEO FOR LOOP STARTS
 frame = cv2.resize(cv2.imread('bar.jpg'), (1020, 500))
 mask = cv2.imread('mask.png')
-
 
 results = model.predict(frame)
 
@@ -44,21 +43,22 @@ confidence_list = [float(conf) for conf in confidences]
 
 indices = cv2.dnn.NMSBoxes(converted_boxes, confidence_list, 0.5, 0.4)
 
+# Initialize the counter dictionary
+people_count = {area: 0 for area in areas.values()}
+
 # Iterating through detections
 for i in indices:
     box = boxes[i]
     confidence = confidences[i]
     class_id = class_ids[i]
 
-    # Convert class_id to a Python integer
-    class_id = int(class_id)  # or class_id.item() if class_id is a single-element tensor
+    class_id = int(class_id)
 
     x1, y1, x2, y2 = map(int, box[:4])
     xc = int((x1 + x2) / 2)
     yc = y2
 
     c = class_list[class_id]
-
     colour = tuple(int(val) for val in mask[yc, xc])
 
     if 'person' in c:
@@ -66,12 +66,25 @@ for i in indices:
         cv2.putText(frame, str(c), (x1, y1), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 1)
         cv2.circle(frame, (xc, yc), 5, colour, -1)
 
-    area_col = mask[yc, xc]
-    area_col_tuple = tuple(area_col)
+        area_col = mask[yc, xc]
+        area_col_tuple = tuple(area_col)
 
-    # Find the area name by color
-    area_name = areas.get(area_col_tuple, "no color")
-    print(area_name)
-        
+        # Find the area name by color and update the count
+        area_name = areas.get(area_col_tuple, "no color")
+        if area_name != "no color":
+            people_count[area_name] += 1
+
+# Print the number of people in each area
+for area, count in people_count.items():
+    if count == 1: 
+        print(f"{area}: {count} person")
+    else:
+        print(f"{area}: {count} people")
+
 cv2.imshow("RGB", frame)
+
+#YOLO VIDEO FOR LOOP ENDS
+
+
 cv2.waitKey(0)
+
