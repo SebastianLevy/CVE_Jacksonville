@@ -2,7 +2,13 @@ import numpy as np
 import cv2
 import json
 
-img = cv2.imread('bar.jpg')  # Import example image
+sample_vids = ['CCTV_720p.mov', 'CCTV_1080p.mov', 'peopleCount.mp4','scaife.mov']
+
+vid = 'SampleVideos/' + sample_vids[3]
+
+cap=cv2.VideoCapture(vid)
+ret, img = cap.read()
+
 mask = np.zeros_like(img)  # Black mask
 # Red, orange, yellow, green, blue - can add more/adjust
 colors = [(0, 0, 255), (28, 172, 255), (15, 196, 241), (0, 255, 0), (255, 0, 0)]
