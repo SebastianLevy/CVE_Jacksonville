@@ -24,12 +24,12 @@ height_total, width_total, channels = concat.shape
 roi_x_min, roi_x_max = width_base+1, width_total
 roi_y_min, roi_y_max = 0, height_total
 concat_im = 'first_sidebar'
-
+lastScreen = False
 print(roi_x_min)
 print(roi_x_max)
 
 def on_mouse_click(event, x, y, flags, param):
-    global slide, concat
+    global slide, concat, lastScreen
     if event == cv2.EVENT_LBUTTONDOWN: 
         print(f"Left mouse button clicked at ({x}, {y})")
         
@@ -44,14 +44,23 @@ def on_mouse_click(event, x, y, flags, param):
                 # adjust this code so that the original photo with the polygons is still there
                 # or can draw polygons at the end and show that image
                 concat = np.concatenate((cafe, resized_image), axis=1)
-        
+              
             elif param == 'instructions':
-                print('instruction')
-                top_left = (roi_x_min, int(2/3 * height_total))
-                bottom_right = (roi_x_max, int(4/5 * height_total))
-                color = (0, 255, 0)
-                thickness = 2
-                cv2.rectangle(concat, top_left, bottom_right, color, thickness)
+                if lastScreen is False:
+                    print('instruction')
+                    top_left = (roi_x_min, int(2/3 * height_total))
+                    bottom_right = (roi_x_max, int(4/5 * height_total))
+                    color = (0, 255, 0)
+                    thickness = 2
+                    cv2.rectangle(concat, top_left, bottom_right, color, thickness)
+                    lastScreen = True
+                elif lastScreen and roi_x_min <= x <= roi_x_max and int(2/3*height_total) <= y <= int(4/5*height_total):
+                    print('analytics')
+                    image_path = 'analytics.png'
+                    image = cv2.imread(image_path)
+                    resized_image = cv2.resize(image, (400, 500))
+                    concat = np.concatenate((cafe, resized_image), axis=1)
+                                  
 
 cv2.namedWindow("SmartCrowd")
 add_param = 'first_sidebar'
