@@ -137,16 +137,47 @@ for area_name, times in entry_exit_times.items():
         exit_timestamp = closest_exit_time[3]
         matched_times.append((entry_timestamp, exit_timestamp))
 
+    # Working Version
+    # # Calculate waiting times
+    # waiting_times = [timedelta(seconds=(exit_time - entry_time)) for entry_time, exit_time in matched_times]
+    # waiting_times_seconds = [time.total_seconds() for time in waiting_times]
+
+    # # Convert average waiting time from timedelta to seconds
+    # average_waiting_time_seconds = sum(waiting_times_seconds) / len(waiting_times_seconds)
+
+    # # Convert average waiting time back to timedelta
+    # average_waiting_time = timedelta(seconds=average_waiting_time_seconds)
+
+    # average_minutes, average_seconds = divmod(average_waiting_time.seconds, 60)
+    # print(f"Average time spent in {area_name}: {average_waiting_time.days} days, {average_waiting_time.seconds} seconds ({average_minutes} mins and {average_seconds} seconds)")
+
+
     # Calculate waiting times
-    waiting_times = [(exit_time - entry_time) for entry_time, exit_time in matched_times]
-    waiting_times_seconds = [time.total_seconds() for time in waiting_times]
+    # waiting_times = [(exit_time - entry_time) for entry_time, exit_time in matched_times]
+    waiting_times = [timedelta(seconds=(exit_time - entry_time)) for entry_time, exit_time in matched_times]
+    # Check if waiting_times is not empty
+    if waiting_times:
+        waiting_times_seconds = [time.total_seconds() for time in waiting_times]
 
-    # Convert average waiting time from timedelta to seconds
-    average_waiting_time_seconds = sum(waiting_times_seconds) / len(waiting_times_seconds)
+        # Check if waiting_times_seconds is not empty
+        if waiting_times_seconds:
+            # Calculate and print average waiting time for each area
+            average_waiting_time_seconds = sum(waiting_times_seconds) / len(waiting_times_seconds)
 
-    # Convert average waiting time back to timedelta
-    average_waiting_time = timedelta(seconds=average_waiting_time_seconds)
+            # Convert average waiting time from timedelta to seconds
+            average_waiting_time = timedelta(seconds=average_waiting_time_seconds)
 
-    print(f"Average time spent in {area_name}: {average_waiting_time}")
+            # Get average waiting time in minutes and seconds
+            average_minutes, average_seconds = divmod(average_waiting_time_seconds, 60)
+
+            # Print average waiting time in the desired format
+            print(f"Average time spent in {area_name}: {average_waiting_time.days} days, {average_waiting_time_seconds} seconds "
+                f"({average_minutes} mins and {average_seconds} seconds)")
+        else:
+            print(f"No waiting times recorded for {area_name}")
+    else:
+        print(f"No waiting times recorded for {area_name}")
+
+
 
 cv2.waitKey(0)
