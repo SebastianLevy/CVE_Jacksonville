@@ -4,7 +4,7 @@ import numpy as np
 
 slide = False
 # base image
-cafe = cv2.imread('cafe.jpg')
+cafe = cv2.imread('first_frame.png')
 height_base, width_base, channels = cafe.shape
 
 # loading the sidebar image
@@ -48,18 +48,35 @@ def on_mouse_click(event, x, y, flags, param):
             elif param == 'instructions':
                 if lastScreen is False:
                     print('instruction')
-                    top_left = (roi_x_min, int(2/3 * height_total))
-                    bottom_right = (roi_x_max, int(4/5 * height_total))
-                    color = (0, 255, 0)
-                    thickness = 2
+                    top_left = (roi_x_min, int(3/4 * height_total))
+                    bottom_right = (roi_x_max, int(5/6 * height_total))
+                    color = (255, 255, 255)
+                    thickness = 0
                     cv2.rectangle(concat, top_left, bottom_right, color, thickness)
                     lastScreen = True
-                elif lastScreen and roi_x_min <= x <= roi_x_max and int(2/3*height_total) <= y <= int(4/5*height_total):
-                    print('analytics')
+
+                elif lastScreen and roi_x_min <= x <= roi_x_max and int(3/4*height_total) <= y <= int(5/6*height_total):
                     image_path = 'analytics.png'
                     image = cv2.imread(image_path)
                     resized_image = cv2.resize(image, (400, 500))
                     concat = np.concatenate((cafe, resized_image), axis=1)
+
+                    # change the text to be whatever number yolo is outputting
+                    text = '30'
+
+                    # don't need to change these
+                    font = cv2.FONT_HERSHEY_DUPLEX
+                    font_size = 0.75
+                    font_color = (0, 0, 0)
+                    font_thickness = 2
+
+                    cv2.putText(concat, text, (width_total-100, 175), font, font_size, font_color, font_thickness)
+
+                    text = '40'
+                    cv2.putText(concat, text, (width_total-100, 300), font, font_size, font_color, font_thickness)
+
+                    text = '50'
+                    cv2.putText(concat, text, (width_total-100, 425), font, font_size, font_color, font_thickness)
                                   
 
 cv2.namedWindow("SmartCrowd")
