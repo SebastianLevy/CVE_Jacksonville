@@ -3,7 +3,10 @@ import json
 import time
 from datetime import datetime, timedelta
 from ultralytics import YOLO
+import socket
 
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(('localhost', 9999))
 # Path to your JSON file
 json_file_path = 'areas.json'
 
@@ -114,12 +117,17 @@ while True:
                 entry_exit_times[area_name].append((xc, yc, 'exit', time.time()))
 
     # Print the number of people in each area
+    data = ""
     for area, count in people_count.items():
+        data = data + count +","
         if count == 1:
             print(f"{area}: {count} person")
         else:
             print(f"{area}: {count} people")
-
+    
+    client.send(data.encode("utf-8")[:1024])
+    client.send('closed'.encode('utf-8')[:1024])
+    
     cv2.imshow("Video", frame)
     if cv2.waitKey(1) & 0xFF == 27:
         break
@@ -179,5 +187,5 @@ for area_name, times in entry_exit_times.items():
         print(f"No waiting times recorded for {area_name}")
 
 
-
+client.close()
 cv2.waitKey(0)
