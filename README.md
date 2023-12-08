@@ -5,11 +5,10 @@
 
 
 
-2) **Status Detection:** - Sebastian
+2) **Status Detection:** - The concept of status detection in the code involves visually representing the status or position of detected individuals within the video stream. For each identified person (labeled as 'person' by YOLO), the script draws bounding boxes encompassing the top-left, top-right, bottom-left, and bottom-right corners, as well as a circle at the bottom midpoint. These visual indicators convey the spatial orientation of a person in the frame. Additionally, the script defines specific areas of interest (For eg. Hallway, Bathroom, Table or Waiting Area, Queue, Sitting Area) using polylines, assigning labels to each area. The combination of YOLO and status detection provides a comprehensive understanding of object positions and their visual representation in real-time video analysis.
 
 
-
-3) **YOLO:** - Sebastian
+3) **YOLO:** - YOLO, or You Only Look Once, is a real-time object detection algorithm employed in the provided code to identify and locate objects within a video stream. YOLO differs from traditional detection methods by dividing the input image into a grid and making predictions for multiple objects in a single pass through the neural network. This allows YOLO to achieve remarkable speed in object detection. In the context of the script, YOLO processes video frames, detecting people labeled as 'person' and providing bounding box coordinates along with class probabilities. The algorithm's efficiency makes it suitable for applications requiring quick and accurate object recognition.
 
 
 4) **Live Occupancy:** The Live Occupancy portion of the provided code focuses on real-time object detection using the YOLO (You Only Look Once) model. Utilizing the 'yolov8s.pt' file, the YOLO model processes frames captured from a video source, identifying individuals classified as "person" within the scene. The code visualizes these detections by drawing bounding boxes around detected people, labeling them as "person," and marking the key bottom-midpoint with circle. Additionally, the code defines and displays different areas that are drawn by the user using polygons and labels. The user is provided with a real-time view of detected individuals and their spatial distribution within the specified regions. The program allows for easy observation of live occupancy dynamics and is terminated upon user input (pressing the 'Esc' key), ensuring an interactive and informative experience.
