@@ -3,8 +3,9 @@ import numpy as np
 import json
 import socket
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(('localhost', 9999))
+#for communication between python scripts, untested
+# server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #sets up server for clients to connect to
+# server.bind(('localhost', 9999))
 
 #red orange yellow green blue
 colors = [(0, 0, 255), (28, 172, 255), (15, 196, 241), (0, 255, 0), (255, 0, 0)]
@@ -77,18 +78,19 @@ def on_mouse_click(event, x, y, flags, param):
                     resized_image = cv2.resize(image, (400, 500))
                     concat = np.concatenate((cafe, resized_image), axis=1)
                     #communicating w/ script running yolo to get updated values for regions, not tested
-                    server.listen(0)
-                    client, _ = server.accept() #this stalls the program
-                    counts = None
-                    while True:
-                        data = client.recv(1024)
-                        data = data.decode("utf-8")
-                        if data.lower() == 'close':
-                            client.send("closed".encode("utf-8"))
-                            break
-                        counts = data
-                    client.close()
+                    # server.listen(0)
+                    # client, _ = server.accept() #this stalls the program
+                    # counts = None
+                    # while True:
+                    #     data = client.recv(1024)
+                    #     data = data.decode("utf-8")
+                    #     if data.lower() == 'close':
+                    #         client.send("closed".encode("utf-8"))
+                    #         break
+                    #     counts = data
+                    # client.close()
                     #format of data that is sent: counts = '#,#,#'
+                    count = '3,0,1'
                     result = counts.split(',') 
                     text1 = result[0]
                     text2 = result[1]
@@ -145,5 +147,5 @@ while True:
             json.dump(shapes, f)
         break
 
-server.close()
+# server.close()
 cv2.destroyAllWindows()
