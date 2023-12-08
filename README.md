@@ -16,4 +16,4 @@
 
 
 6) 5 UI - Alexis
-
+requires instructions.png, analytics.png, first_sidebar.png, and first_frame.png to be in the same folder
