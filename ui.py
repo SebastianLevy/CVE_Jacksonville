@@ -16,7 +16,7 @@ curr_shape_index = [] #list to store the indices of the polygon currently drawin
 
 slide = False #
 # base image
-cafe = cv2.imread('cafe.jpg')
+cafe = cv2.imread('first_frame.png')
 height_base, width_base, channels = cafe.shape
 
 cols = width_base
@@ -90,7 +90,7 @@ def on_mouse_click(event, x, y, flags, param):
                     #     counts = data
                     # client.close()
                     #format of data that is sent: counts = '#,#,#'
-                    count = '3,0,1'
+                    counts = '3,0,1'
                     result = counts.split(',') 
                     text1 = result[0]
                     text2 = result[1]
