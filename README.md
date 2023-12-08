@@ -1,7 +1,7 @@
 # CVE_Jacksonville
 
 
-1) Area Segmentation: The area segmentation portion of the code asks for user input in selecting the desired areas in an image and outputs a mask. For each area, the user clicks where they want each corner of the area to be, right clicking for the final point, and the code adds the area onto the image in red lines as the user clicks. When the user is done, the code asks for the name of the area, and saves the area onto a mask, which is all black, except for the pixels within the area, which are assigned a color from a list. The code saves the mask and a json file with a dictionary that contains key value pairs of the area name and its assigned color. This information is used in the real time analysis of video
+1) Area Segmentation: The area segmentation portion of the code asks for user input in selecting the desired areas in an image and outputs a mask. For each area, the user clicks where they want each corner of the area to be, right clicking for the final point, and the code adds the area onto the image in red lines as the user clicks. When the user is done, the code asks for the name of the area, and saves the area onto a mask, which is all black, except for the pixels within the area, which are assigned a color from a list. The code saves the mask and a json file with a dictionary that contains key value pairs of the area name and its assigned color. This information is used in the real time analysis of video. This code is integrated with the ui in ui.py
 
 
 
